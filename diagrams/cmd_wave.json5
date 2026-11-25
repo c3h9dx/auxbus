@@ -1,0 +1,8 @@
+{ signal: [
+    { name: 'AUXBUS', wave: '1.0...10.10..........101.........' },
+    { name: 'field',  wave: 'x.=....=.......=.......=.......x.',
+      data: ['preamble 00001', 'command 0x20', 'data 0x02', 'response (none = 0xFF)'] }
+  ],
+  head: { text: 'CMD frame 0x2002 (BAND 40 m), 1 char = 1 bit = 476 µs' },
+  config: { hscale: 1 }
+}

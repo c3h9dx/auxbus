@@ -1,0 +1,8 @@
+{ signal: [
+    { name: 'AUXBUS', wave: '1.0...1010...1.01...0....1010..1.' },
+    { name: 'field',  wave: 'x.=....=..=...............==...x.',
+      data: ['preamble 00001', '010', 'kHz = 7105', '0', 'cs = 8'] }
+  ],
+  head: { text: 'FREQ frame 0x437828 (7105 kHz), 1 char = 1 bit = 476 µs' },
+  config: { hscale: 1 }
+}

@@ -1,0 +1,8 @@
+{ signal: [
+    { name: 'AUXBUS', wave: '1.0..|..1....0....1...' },
+    { name: 'pole',   wave: 'x.=.....=....=......x.',
+      data: ['LOW ≈ 80 ms', 'HIGH 5 ms', 'b6…b0 = 0000011'] }
+  ],
+  head: { text: 'Ramka ACC 0x03, 1 znak = 1 ms (LOW skrócone)' },
+  config: { hscale: 1 }
+}

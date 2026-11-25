@@ -69,25 +69,7 @@ Radio K4 wysyła FREQ zawsze z pierwszym bajtem `0x40`–`0x5F`.
 
 ### 2.3 Ramka CMD
 
-```bytefield
-(def boxes-per-row 29)
-(def box-width 22)
-(def row-header-fn nil)
-(def left-margin 1)
-(draw-column-headers {:font-size 9
-  :labels ["" "" "" "" "" "7" "6" "5" "4" "3" "2" "1" "0" "7" "6" "5" "4" "3" "2" "1" "0" "7" "6" "5" "4" "3" "2" "1" "0"]})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "1" {:fill "#e8e8e8"})
-(draw-box "command" {:span 8})
-(draw-box "data" {:span 8})
-(draw-box "[response]" {:span 8 :fill "#f4f4f4"})
-(draw-box "preambuła" {:span 5 :borders #{}})
-(draw-box "radio" {:span 16 :borders #{}})
-(draw-box "adresat" {:span 8 :borders #{}})
-```
+![Ramka CMD](diagrams/cmd_frame.pl.svg)
 
 - **command**: kod polecenia (lista w [rozdziale 4](#4-polecenia-k)),
 - **data**: argument polecenia,
@@ -96,56 +78,19 @@ Radio K4 wysyła FREQ zawsze z pierwszym bajtem `0x40`–`0x5F`.
 
 Przykład: `0x2002`, czyli BAND = 40 m, bez odpowiedzi (response = `0xFF`).
 
-```wavedrom
-{ signal: [
-    { name: 'AUXBUS', wave: '1.0...10.10..........101.........' },
-    { name: 'pole',   wave: 'x.=....=.......=.......=.......x.',
-      data: ['preambuła 00001', 'command 0x20', 'data 0x02', 'response (brak = 0xFF)'] }
-  ],
-  head: { text: 'Ramka CMD 0x2002 (BAND 40 m), 1 znak = 1 bit = 476 µs' },
-  config: { hscale: 1 }
-}
-```
+![Przebieg ramki CMD](diagrams/cmd_wave.pl.svg)
 
 Czas trwania: 21 bitów ≈ 10,0 ms, plus 3,8 ms okna response.
 
 ### 2.4 Ramka FREQ
 
-```bytefield
-(def boxes-per-row 29)
-(def box-width 22)
-(def row-header-fn nil)
-(def left-margin 1)
-(draw-column-headers {:font-size 9
-  :labels ["" "" "" "" "" "23" "22" "21" "20" "19" "18" "17" "16" "15" "14" "13" "12" "11" "10" "9" "8" "7" "6" "5" "4" "3" "2" "1" "0"]})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "0" {:fill "#e8e8e8"})
-(draw-box "1" {:fill "#e8e8e8"})
-(draw-box "0")
-(draw-box "1")
-(draw-box "kHz (17 bitów)" {:span 17})
-(draw-box "0")
-(draw-box "cs" {:span 4})
-(draw-box "preambuła" {:span 5 :borders #{}})
-(draw-box "V (24 bity)" {:span 24 :borders #{}})
-```
+![Ramka FREQ](diagrams/freq_frame.pl.svg)
 
 Pełny opis i suma kontrolna: [rozdział 5](#5-ramka-freq).
 
 Przykład: 7105 kHz, `V = 0x437828`.
 
-```wavedrom
-{ signal: [
-    { name: 'AUXBUS', wave: '1.0...1010...1.01...0....1010..1.' },
-    { name: 'pole',   wave: 'x.=....=..=...............==...x.',
-      data: ['preambuła 00001', '010', 'kHz = 7105', '0', 'cs = 8'] }
-  ],
-  head: { text: 'Ramka FREQ 0x437828 (7105 kHz), 1 znak = 1 bit = 476 µs' },
-  config: { hscale: 1 }
-}
-```
+![Przebieg ramki FREQ](diagrams/freq_wave.pl.svg)
 
 Czas trwania: 29 bitów ≈ 13,8 ms.
 
@@ -199,24 +144,7 @@ odpowiedzi wartość `(command << 16) | (data << 8) | 0xFF`.
 Ramkę ACC nadaje akcesorium do radia. Nie ma w niej pola typu ani sumy
 kontrolnej.
 
-```bytefield
-(def boxes-per-row 16)
-(def box-width 30)
-(def row-header-fn nil)
-(def left-margin 1)
-(draw-column-headers {:font-size 9
-  :labels ["" "" "" "" "" "" "" "" "" "6" "5" "4" "3" "2" "1" "0"]})
-(draw-box "LOW ≈ 80 ms" {:span 4 :fill "#e8e8e8"})
-(draw-box "1" {:fill "#e8e8e8"})
-(draw-box "1" {:fill "#e8e8e8"})
-(draw-box "1" {:fill "#e8e8e8"})
-(draw-box "1" {:fill "#e8e8e8"})
-(draw-box "1" {:fill "#e8e8e8"})
-(draw-box "polecenie" {:span 7})
-(draw-box "" {:span 4 :borders #{}})
-(draw-box "HIGH 5 ms" {:span 5 :borders #{}})
-(draw-box "bajt b6…b0" {:span 7 :borders #{}})
-```
+![Ramka ACC](diagrams/acc_frame.pl.svg)
 
 Zbocze narastające kończące LOW to `t_r`; dane zajmują czas od `t_r` + 5 ms
 do `t_r` + 12 ms.
@@ -227,16 +155,7 @@ do `t_r` + 12 ms.
 - 7 bitów danych po 1000 µs, MSB first. Nadawany bajt ma zawsze wartość
   `0x00`–`0x7F`.
 
-```wavedrom
-{ signal: [
-    { name: 'AUXBUS', wave: '1.0..|..1....0....1...' },
-    { name: 'pole',   wave: 'x.=.....=....=......x.',
-      data: ['LOW ≈ 80 ms', 'HIGH 5 ms', 'b6…b0 = 0000011'] }
-  ],
-  head: { text: 'Ramka ACC 0x03, 1 znak = 1 ms (LOW skrócone)' },
-  config: { hscale: 1 }
-}
-```
+![Przebieg ramki ACC](diagrams/acc_wave.pl.svg)
 
 ### 3.1 Odbiór ramki ACC w K4
 
@@ -319,25 +238,7 @@ następnego stanu, cyklicznie 0 → 1 → 2 → 3 → 0.
 
 24 bity `V`, od bitu 23 do 0:
 
-```bytefield
-(def boxes-per-row 24)
-(def box-width 26)
-(def row-header-fn nil)
-(def left-margin 1)
-(draw-column-headers {:font-size 9
-  :labels ["23" "22" "21" "20" "19" "18" "17" "16" "15" "14" "13" "12" "11" "10" "9" "8" "7" "6" "5" "4" "3" "2" "1" "0"]})
-(draw-box "0")
-(draw-box "1")
-(draw-box "kHz (17 bitów)" {:span 17})
-(draw-box "0")
-(draw-box "cs" {:span 4})
-(draw-box "nibel 5" {:span 4 :fill "#f4f4f4"})
-(draw-box "nibel 4" {:span 4 :fill "#f4f4f4"})
-(draw-box "nibel 3" {:span 4 :fill "#f4f4f4"})
-(draw-box "nibel 2" {:span 4 :fill "#f4f4f4"})
-(draw-box "nibel 1" {:span 4 :fill "#f4f4f4"})
-(draw-box "nibel 0" {:span 4 :fill "#f4f4f4"})
-```
+![Pola ramki FREQ](diagrams/freq_fields.pl.svg)
 
 - bit 23 = `0`, bit 22 = `1`: znacznik ramki FREQ,
 - bity 21–5: częstotliwość w kHz (17 bitów); w K4 zawsze < 65 536, więc

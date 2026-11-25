@@ -1,0 +1,8 @@
+{ signal: [
+    { name: 'AUXBUS', wave: '1.0...10.10..........101.........' },
+    { name: 'pole',   wave: 'x.=....=.......=.......=.......x.',
+      data: ['preambuła 00001', 'command 0x20', 'data 0x02', 'response (brak = 0xFF)'] }
+  ],
+  head: { text: 'Ramka CMD 0x2002 (BAND 40 m), 1 znak = 1 bit = 476 µs' },
+  config: { hscale: 1 }
+}

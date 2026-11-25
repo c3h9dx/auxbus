@@ -1,0 +1,8 @@
+{ signal: [
+    { name: 'AUXBUS', wave: '1.0..|..1....0....1...' },
+    { name: 'field',  wave: 'x.=.....=....=......x.',
+      data: ['LOW ≈ 80 ms', 'HIGH 5 ms', 'b6…b0 = 0000011'] }
+  ],
+  head: { text: 'ACC frame 0x03, 1 char = 1 ms (LOW shortened)' },
+  config: { hscale: 1 }
+}
