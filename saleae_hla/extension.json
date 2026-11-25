@@ -1,0 +1,13 @@
+{
+  "version": "0.1.0",
+  "apiVersion": "1.0.0",
+  "name": "Elecraft AUXBUS HLA",
+  "description": "Decodes Elecraft AUXBUS frames",
+  "author": "c3h9dx",
+  "extensions": {
+    "Elecraft AUXBUS HLA": {
+      "type": "HighLevelAnalyzer",
+      "entryPoint": "HLA.AUXBUSHla"
+    }
+  }
+}
